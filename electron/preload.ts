@@ -1,5 +1,19 @@
-const fs = require('fs')
+import { contextBridge, ipcRenderer } from "electron"
+import * as fs from "fs"
 
-function action() {
-    console.log(fs)
-}
+contextBridge.exposeInMainWorld('electron', {
+  showDialog: ()=> {
+    ipcRenderer.send("showDialog", "sd")
+  },
+  addEventListener: (event: string, callback: any)=> {
+    ipcRenderer.on(event, callback)
+    fs.read
+  },
+  removeEventListener: (event: string, callback: any) => {
+      ipcRenderer.removeListener(event, callback);
+  },
+  ipcRenderer: ipcRenderer,
+  fs:fs
+})
+
+export {}

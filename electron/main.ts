@@ -17,15 +17,13 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js')
     }
   })
-  win.loadURL(`file://${__dirname}/../index.html`);
-  return
+  
   if (app.isPackaged) {
     // 'build/index.html'
-    
+    win.loadURL(`file://${__dirname}/../index.html`);  
   } else {
     win.loadURL('http://localhost:3002/index.html');
-
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
     // Hot Reloading on 'node_modules/.bin/electronPath'
     require('electron-reload')(__dirname, {
@@ -63,14 +61,11 @@ app.whenReady().then(() => {
 });
 
 ipcMain.on("showDialog", (event)=>{
-    
   showOpenFileDialog()
-  .then((selectPath)=>{
-      event.sender.send("selectPath", selectPath);
-      
-  })
-  .catch((ex)=> {
-     console.error("error",ex) ;
-  });
-  
+    .then((selectPath)=>{
+        event.sender.send("selectPath", selectPath);  
+    })
+    .catch((ex)=> {
+      console.error("error",ex) ;
+    });
 });
